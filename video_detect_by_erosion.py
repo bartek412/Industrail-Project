@@ -1,10 +1,12 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import os
 import apriltag
-import skimage as ski
-from skimage.morphology import erosion, square, dilation, binary_dilation, binary_erosion, disk
+from skimage.morphology import (
+    erosion,
+    square,
+    disk,
+)
 import cv2
+
 
 def count_detected_april_tags(image):
     options = apriltag.DetectorOptions(families="tag16h5")
@@ -12,22 +14,22 @@ def count_detected_april_tags(image):
     results = detector.detect(np.asarray(image, np.uint8))
     return len(results)
 
+
 def find_best_erosion_kernel(image, kernels):
     best_kernel = kernels[0]
     max_found_tags = 0
-    best_kernel_iter = 0
+    # best_kernel_iter = 0
     for iter in range(len(kernels)):
         mod_image = erosion(image, kernels[iter])
         found_tags = count_detected_april_tags(mod_image)
         if found_tags > max_found_tags:
             best_kernel = kernels[iter]
             max_found_tags = found_tags
-            best_kernel_iter = iter
-    print(best_kernel_iter)
+    # print(best_kernel_iter)
     return best_kernel
 
 
-def process_video(video_path):
+def process_video(video_path, use_erosion=True, save=True):
     cap = cv2.VideoCapture(video_path)
 
     # Check if video opened successfully
@@ -41,10 +43,18 @@ def process_video(video_path):
     fps = cap.get(cv2.CAP_PROP_FPS)
 
     # Define the codec and create VideoWriter object
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for MP4
-    out = cv2.VideoWriter(video_path.replace('.mp4', '_processed.mp4'), fourcc, fps, (frame_width, frame_height), isColor=True)
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # Codec for MP4
+    out = cv2.VideoWriter(
+        video_path.replace(".mp4", "_processed.mp4"),
+        fourcc,
+        fps,
+        (frame_width, frame_height),
+        isColor=True,
+    )
 
     # Process each frame
+    stats = {"frames_numbers": 0, "frames_detected": 0}
+
     while cap.isOpened():
         # Read the next frame from the video
         ret, frame = cap.read()
@@ -55,14 +65,21 @@ def process_video(video_path):
 
         original = frame.copy()
 
+        stats["frames_numbers"] += 1
         # Process the frame (example: converting to grayscale)
         image = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
-        kernel = find_best_erosion_kernel(image, [square(1), square(3), square(5), square(7), disk(3), disk(5), disk(7)])
-        image = erosion(image, kernel)
+        if use_erosion:
+            kernel = find_best_erosion_kernel(
+                image,
+                [square(1), square(3), square(5), square(7), disk(3), disk(5), disk(7)],
+            )
+            image = erosion(image, kernel)
         options = apriltag.DetectorOptions(families="tag16h5")
         detector = apriltag.Detector(options)
         results = detector.detect(np.asarray(image, np.uint8))
 
+        if results:
+            stats["frames_detected"] += 1
         # loop over the AprilTag detection results
         for r in results:
             # extract the bounding box (x, y)-coordinates for the AprilTag
@@ -81,18 +98,27 @@ def process_video(video_path):
             (cX, cY) = (int(r.center[0]), int(r.center[1]))
             # cv2.circle(original, (cX, cY), 5, (0, 0, 255), -1)
             # draw the tag family on the image
-            tagFamily = r.tag_family.decode("utf-8")
-            cv2.putText(original, str(r.tag_id), (cX, cY - 15),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
+            cv2.putText(
+                original,
+                str(r.tag_id),
+                (cX, cY - 15),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 255),
+                2,
+            )
 
         # Write the processed frame to the output video
-        out.write(original)
+        if save:
+            out.write(original)
 
     # Release resources
     cap.release()
     out.release()
 
-if __name__=="__main__":
-    video_path='samples/apriltags_p1.mp4'
+    return stats
+
+
+if __name__ == "__main__":
+    video_path = "samples/apriltags_p1.mp4"
     process_video(video_path)

@@ -10,7 +10,7 @@ def detect_apriltags(image_path):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     detector = Detector(
-        families="tag36h11",
+        families="tag16h5",
         nthreads=1,
         quad_decimate=1.0,
         quad_sigma=0.0,
@@ -22,7 +22,6 @@ def detect_apriltags(image_path):
     results = detector.detect(gray)
 
     for r in results:
-
         tag_id = r.tag_id
         center = tuple(int(c) for c in r.center)
         corners = np.array(r.corners, dtype=np.int32)
@@ -45,7 +44,6 @@ def detect_apriltags(image_path):
 
 
 def main():
-
     image_folder = "images"
 
     valid_extensions = (".jpg", ".jpeg", ".png")
