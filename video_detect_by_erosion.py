@@ -6,6 +6,7 @@ from skimage.morphology import (
     disk,
 )
 import cv2
+import math
 
 
 def count_detected_april_tags(image):
@@ -28,9 +29,39 @@ def find_best_erosion_kernel(image, kernels):
     # print(best_kernel_iter)
     return best_kernel
 
+def calcTriangleArea(len_a, len_b, len_c):
+    # using Heron's formula
+    s = (len_a + len_b + len_c) / 2
+    return math.sqrt(s * (s - len_a) * (s - len_b) * (s - len_c))
 
-def process_video(video_path, use_erosion=True, save=True):
-    cap = cv2.VideoCapture(video_path)
+def isFalsePositiveDetection(result, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.95):
+    (ptA, ptB, ptC, ptD) = result.corners
+    # sides lengths
+    len_ab = math.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
+    len_bc = math.sqrt((ptB[0] - ptC[0]) ** 2 + (ptB[1] - ptC[1]) ** 2)
+    len_cd = math.sqrt((ptC[0] - ptD[0]) ** 2 + (ptC[1] - ptD[1]) ** 2)
+    len_da = math.sqrt((ptD[0] - ptA[0]) ** 2 + (ptD[1] - ptA[1]) ** 2)
+    # diagonals lengths
+    len_ac = math.sqrt((ptA[0] - ptC[0]) ** 2 + (ptA[1] - ptC[1]) ** 2)
+    len_bd = math.sqrt((ptB[0] - ptD[0]) ** 2 + (ptB[1] - ptD[1]) ** 2)
+
+    area = calcTriangleArea(len_ab, len_bd, len_da) + calcTriangleArea(len_bc, len_cd, len_bd)
+    side_square_to_area_ratio = (((len_ab + len_bc + len_cd + len_da) / 4) ** 2) / area
+
+    if side_square_to_area_ratio < side_square_to_area_min_ratio:
+        return True
+
+    if min(len_ab / len_cd, len_cd / len_ab) < opposite_sides_min_ratio:
+        return True
+
+    if min(len_bc / len_da, len_da / len_bc) < opposite_sides_min_ratio:
+        return True
+
+    return False
+
+
+def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
+    cap = cv2.VideoCapture(video_src_path)
 
     # Check if video opened successfully
     if not cap.isOpened():
@@ -45,12 +76,14 @@ def process_video(video_path, use_erosion=True, save=True):
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # Codec for MP4
     out = cv2.VideoWriter(
-        video_path.replace(".mp4", "_processed.mp4"),
+        video_out_path,
         fourcc,
         fps,
         (frame_width, frame_height),
         isColor=True,
     )
+
+    fp_detected = 0
 
     # Process each frame
     stats = {"frames_numbers": 0, "frames_detected": 0}
@@ -66,6 +99,7 @@ def process_video(video_path, use_erosion=True, save=True):
         original = frame.copy()
 
         stats["frames_numbers"] += 1
+        print(f'progress: {stats["frames_numbers"]} / {int(cap.get(cv2.CAP_PROP_FRAME_COUNT))} ({stats["frames_numbers"] / int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) * 100:.2f} %)')
         # Process the frame (example: converting to grayscale)
         image = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
         if use_erosion:
@@ -83,6 +117,11 @@ def process_video(video_path, use_erosion=True, save=True):
             stats["frames_detected"] += 1
         # loop over the AprilTag detection results
         for r in results:
+            if isFalsePositiveDetection(r):
+                fp_detected += 1
+                print('continue')
+                continue
+
             # extract the bounding box (x, y)-coordinates for the AprilTag
             # and convert each of the (x, y)-coordinate pairs to integers
             (ptA, ptB, ptC, ptD) = r.corners
@@ -91,22 +130,24 @@ def process_video(video_path, use_erosion=True, save=True):
             ptD = (int(ptD[0]), int(ptD[1]))
             ptA = (int(ptA[0]), int(ptA[1]))
             # draw the bounding box of the AprilTag detection
-            cv2.line(image, ptA, ptB, (0, 255, 0), 2)
-            cv2.line(image, ptB, ptC, (0, 255, 0), 2)
-            cv2.line(image, ptC, ptD, (0, 255, 0), 2)
-            cv2.line(image, ptD, ptA, (0, 255, 0), 2)
+            cv2.line(original, ptA, ptB, (0, 255, 0), 2)
+            cv2.line(original, ptB, ptC, (0, 255, 0), 2)
+            cv2.line(original, ptC, ptD, (0, 255, 0), 2)
+            cv2.line(original, ptD, ptA, (0, 255, 0), 2)
             # draw the center (x, y)-coordinates of the AprilTag
             (cX, cY) = (int(r.center[0]), int(r.center[1]))
-            # cv2.circle(image, (cX, cY), 5, (0, 0, 255), -1)
+            # cv2.circle(original, (cX, cY), 5, (0, 0, 255), -1)
             # draw the tag family on the image
             tagFamily = r.tag_family.decode("utf-8")
-            cv2.putText(image, str(r.tag_id), (cX, cY - 15),
+            cv2.putText(original, str(r.tag_id), (cX, cY - 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
 
         # Write the processed frame to the output video
         if save:
             out.write(original)
+
+    print(f'detected false positives: {fp_detected}')
 
     # Release resources
     cap.release()
@@ -116,5 +157,7 @@ def process_video(video_path, use_erosion=True, save=True):
 
 
 if __name__ == "__main__":
-    video_path = "samples/apriltags_p1.mp4"
-    process_video(video_path)
+    name = 'apriltag_1'
+    video_src_path = f'videos/{name}.mp4'
+    video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
+    process_video(video_src_path, video_out_path)

@@ -52,8 +52,8 @@ def compose_videos(video_1, video_2, video_out):
     out.release()
 
 if __name__=="__main__":
-    name='apriltags_new'
-    video_1=f'samples/{name}_processed_raw.mp4'
-    video_2=f'samples/{name}_processed.mp4'
-    video_out=f'samples/{name}_comparison.mp4'
+    name='apriltag_1'
+    video_1=f'videos_detection_erosion/{name}_processed_erosion.mp4'
+    video_2=f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
+    video_out=f'videos_detection_erosion_vs_npfp_detection_erosion/{name}_comparison.mp4'
     compose_videos(video_1, video_2, video_out)
