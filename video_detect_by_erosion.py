@@ -77,6 +77,7 @@ def process_video(video_path, use_erosion=True, save=True):
         options = apriltag.DetectorOptions(families="tag16h5")
         detector = apriltag.Detector(options)
         results = detector.detect(np.asarray(image, np.uint8))
+        image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
         if results:
             stats["frames_detected"] += 1
@@ -90,23 +91,18 @@ def process_video(video_path, use_erosion=True, save=True):
             ptD = (int(ptD[0]), int(ptD[1]))
             ptA = (int(ptA[0]), int(ptA[1]))
             # draw the bounding box of the AprilTag detection
-            cv2.line(original, ptA, ptB, (0, 255, 0), 2)
-            cv2.line(original, ptB, ptC, (0, 255, 0), 2)
-            cv2.line(original, ptC, ptD, (0, 255, 0), 2)
-            cv2.line(original, ptD, ptA, (0, 255, 0), 2)
+            cv2.line(image, ptA, ptB, (0, 255, 0), 2)
+            cv2.line(image, ptB, ptC, (0, 255, 0), 2)
+            cv2.line(image, ptC, ptD, (0, 255, 0), 2)
+            cv2.line(image, ptD, ptA, (0, 255, 0), 2)
             # draw the center (x, y)-coordinates of the AprilTag
             (cX, cY) = (int(r.center[0]), int(r.center[1]))
-            # cv2.circle(original, (cX, cY), 5, (0, 0, 255), -1)
+            # cv2.circle(image, (cX, cY), 5, (0, 0, 255), -1)
             # draw the tag family on the image
-            cv2.putText(
-                original,
-                str(r.tag_id),
-                (cX, cY - 15),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.5,
-                (0, 0, 255),
-                2,
-            )
+            tagFamily = r.tag_family.decode("utf-8")
+            cv2.putText(image, str(r.tag_id), (cX, cY - 15),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+
 
         # Write the processed frame to the output video
         if save:
