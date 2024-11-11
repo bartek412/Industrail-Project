@@ -34,7 +34,7 @@ def calcTriangleArea(len_a, len_b, len_c):
     s = (len_a + len_b + len_c) / 2
     return math.sqrt(s * (s - len_a) * (s - len_b) * (s - len_c))
 
-def isFalsePositiveDetection(result, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.95):
+def isFalsePositiveDetection(result, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.85):
     (ptA, ptB, ptC, ptD) = result.corners
     # sides lengths
     len_ab = math.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
@@ -157,7 +157,7 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
 
 
 if __name__ == "__main__":
-    name = 'apriltag_1'
+    name = 'apriltags_p2'
     video_src_path = f'videos/{name}.mp4'
     video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
     process_video(video_src_path, video_out_path)
