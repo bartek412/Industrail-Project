@@ -7,6 +7,7 @@ from skimage.morphology import (
 )
 import cv2
 import math
+from skimage.draw import polygon
 
 
 def count_detected_april_tags(image):
@@ -34,7 +35,16 @@ def calcTriangleArea(len_a, len_b, len_c):
     s = (len_a + len_b + len_c) / 2
     return math.sqrt(s * (s - len_a) * (s - len_b) * (s - len_c))
 
-def isFalsePositiveDetection(result, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.85):
+def create_results_mask(shape, results):
+    mask = np.zeros(shape, dtype=np.uint8)
+    for result in results:
+        xs = [corner[0] for corner in result.corners]
+        ys = [corner[1] for corner in result.corners]
+        yy_mask, xx_mask = polygon(ys, xs, shape)
+        mask[yy_mask, xx_mask] = 1
+    return mask
+
+def is_false_positive_detection(result, previous_results=None, shape=None, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.85):
     (ptA, ptB, ptC, ptD) = result.corners
     # sides lengths
     len_ab = math.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
@@ -55,6 +65,14 @@ def isFalsePositiveDetection(result, side_square_to_area_min_ratio=0.97, opposit
         return True
 
     if min(len_bc / len_da, len_da / len_bc) < opposite_sides_min_ratio:
+        return True
+
+    if previous_results == None:
+        return False
+
+    result_mask = create_results_mask(shape, [result])
+    previous_results_mask = create_results_mask(shape, previous_results)
+    if np.sum(np.minimum(result_mask, previous_results_mask)) == 0:
         return True
 
     return False
@@ -87,7 +105,7 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
 
     # Process each frame
     stats = {"frames_numbers": 0, "frames_detected": 0}
-
+    previous_results = None
     while cap.isOpened():
         # Read the next frame from the video
         ret, frame = cap.read()
@@ -111,13 +129,13 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
         options = apriltag.DetectorOptions(families="tag16h5")
         detector = apriltag.Detector(options)
         results = detector.detect(np.asarray(image, np.uint8))
-        image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+        # image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
         if results:
             stats["frames_detected"] += 1
         # loop over the AprilTag detection results
         for r in results:
-            if isFalsePositiveDetection(r):
+            if is_false_positive_detection(r, previous_results, image.shape):
                 fp_detected += 1
                 print('continue')
                 continue
@@ -147,6 +165,8 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
         if save:
             out.write(original)
 
+        previous_results = results
+
     print(f'detected false positives: {fp_detected}')
 
     # Release resources
@@ -157,7 +177,7 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
 
 
 if __name__ == "__main__":
-    name = 'apriltags_p2'
+    name = 'apriltags_new'
     video_src_path = f'videos/{name}.mp4'
     video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
     process_video(video_src_path, video_out_path)
