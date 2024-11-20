@@ -44,7 +44,7 @@ def create_results_mask(shape, results):
         mask[yy_mask, xx_mask] = 1
     return mask
 
-def is_false_positive_detection(result, previous_results=None, shape=None, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.85):
+def is_false_positive_detection(result, previous_results=None, shape=None, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.80):
     (ptA, ptB, ptC, ptD) = result.corners
     # sides lengths
     len_ab = math.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
@@ -77,8 +77,11 @@ def is_false_positive_detection(result, previous_results=None, shape=None, side_
 
     return False
 
+def is_dark_frame(frame, px_value=30, ratio=0.3):
+    return (np.sum((frame > px_value) * 1.0) / (frame.flatten().shape[0])) > ratio
 
-def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
+
+def process_video(video_src_path, video_out_path, use_erosion=True, save=True, for_dark_only=True):
     cap = cv2.VideoCapture(video_src_path)
 
     # Check if video opened successfully
@@ -120,7 +123,8 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True):
         print(f'progress: {stats["frames_numbers"]} / {int(cap.get(cv2.CAP_PROP_FRAME_COUNT))} ({stats["frames_numbers"] / int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) * 100:.2f} %)')
         # Process the frame (example: converting to grayscale)
         image = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
-        if use_erosion:
+        if use_erosion and (not is_dark_frame(image) or not for_dark_only):
+            print('use erosion')
             kernel = find_best_erosion_kernel(
                 image,
                 [square(1), square(3), square(5), square(7), disk(3), disk(5), disk(7)],
