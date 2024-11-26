@@ -6,6 +6,7 @@ dist/
 wheels/
 temp/
 *.egg-info
+videos_analysis/apriltags_new/
 
 # Virtual environments
 .venv

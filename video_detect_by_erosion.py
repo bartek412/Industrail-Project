@@ -8,6 +8,7 @@ from skimage.morphology import (
 import cv2
 import math
 from skimage.draw import polygon
+import json
 
 
 def count_detected_april_tags(image):
@@ -107,7 +108,10 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
     fp_detected = 0
 
     # Process each frame
+
+    frames_counter = 0
     stats = {"frames_numbers": 0, "frames_detected": 0}
+    statistics = {}
     previous_results = None
     while cap.isOpened():
         # Read the next frame from the video
@@ -119,6 +123,8 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
 
         original = frame.copy()
 
+
+        statistics[frames_counter] = []
         stats["frames_numbers"] += 1
         print(f'progress: {stats["frames_numbers"]} / {int(cap.get(cv2.CAP_PROP_FRAME_COUNT))} ({stats["frames_numbers"] / int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) * 100:.2f} %)')
         # Process the frame (example: converting to grayscale)
@@ -164,10 +170,17 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
             cv2.putText(original, str(r.tag_id), (cX, cY - 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
+            statistics[frames_counter].append(r.tag_id)
+
+        # add number of frame to image
+        cv2.putText(original, str(frames_counter), (15, 40),
+            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
         # Write the processed frame to the output video
         if save:
             out.write(original)
+
+        frames_counter += 1
 
         previous_results = results
 
@@ -177,6 +190,9 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
     cap.release()
     out.release()
 
+    with open(video_out_path.replace('.mp4', '.json'), "w") as json_file:
+        json.dump(statistics, json_file, indent=2)
+
     return stats
 
 
@@ -184,4 +200,4 @@ if __name__ == "__main__":
     name = 'apriltags_new'
     video_src_path = f'videos/{name}.mp4'
     video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
-    process_video(video_src_path, video_out_path)
+    process_video(video_src_path, video_out_path, use_erosion=True, save=True, for_dark_only=True)
