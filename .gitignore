@@ -7,6 +7,8 @@ wheels/
 temp/
 *.egg-info
 videos_analysis/apriltags_new/
+videos_analysis/apriltag_1/
+videos_analysis/apriltags/
 
 # Virtual environments
 .venv

@@ -45,7 +45,7 @@ def create_results_mask(shape, results):
         mask[yy_mask, xx_mask] = 1
     return mask
 
-def is_false_positive_detection(result, previous_results=None, shape=None, side_square_to_area_min_ratio=0.97, opposite_sides_min_ratio=0.80):
+def is_false_positive_detection(result, previous_results=None, shape=None, side_square_to_area_min_ratio=0.95, opposite_sides_min_ratio=0.75):
     (ptA, ptB, ptC, ptD) = result.corners
     # sides lengths
     len_ab = math.sqrt((ptA[0] - ptB[0]) ** 2 + (ptA[1] - ptB[1]) ** 2)
@@ -197,7 +197,7 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
 
 
 if __name__ == "__main__":
-    name = 'apriltags_new'
+    name = 'apriltag_1'
     video_src_path = f'videos/{name}.mp4'
     video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
     process_video(video_src_path, video_out_path, use_erosion=True, save=True, for_dark_only=True)
