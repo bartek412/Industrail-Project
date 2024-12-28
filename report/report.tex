@@ -1,0 +1,46 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[cm]{fullpage}
+\title{Industrial Project Report}
+\author{Maciej Stępień, Adam Sztamborski, Bartłomiej Gryglak}
+\date{}
+
+\begin{document}
+\maketitle
+\pagebreak
+
+\tableofcontents
+\pagebreak
+
+\begin{abstract}
+Dokument ten prezentuje kilka zasad składu tekstu
+w~systemie \LaTeX.
+\end{abstract}
+% pierwsza sekcja
+\section{Tekst}\label{sec:tekst}
+\LaTeX\ ułatwia autorowi tekstu zarządzanie
+numerowaniem sekcji, wypunktowaniami oraz odwołaniami
+do tabel, rysunków i~innych elementów. W~łatwy sposób
+możemy się odwołać do wzoru \ref{eqn:wzor1}.
+\pagebreak
+
+% druga sekcja
+\section{Matematyka}\label{sec:matematyka}
+Poniższy wzór prezentuje możliwości \LaTeX\ w~zakresie
+składu formuł matematycznych. Wzory są numerowane
+automatycznie, podobnie jak inne elementy o~których
+mowa w~sekcji~\ref{sec:tekst}.
+\begin{equation}
+    E = mc^2,
+    \label{eqn:wzor1}
+\end{equation}
+gdzie
+\begin{equation}
+    m = \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}.
+\end{equation}
+
+
+\end{document}

@@ -12,6 +12,7 @@ videos_analysis/apriltags/
 videos_analysis/apriltags_p1/
 videos_analysis/apriltags_p2/
 videos_analysis/apriltags_p3/
+*.log
 
 # Virtual environments
 .venv
