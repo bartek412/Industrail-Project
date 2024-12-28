@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1735426554.02379 "/media/SANDISK64/CSnIT/III_SEMESTER/industrial_project/report/report.tex" "report.pdf" "report" 1735426554.38494 0
-  "/media/SANDISK64/CSnIT/III_SEMESTER/industrial_project/report/report.tex" 1735426553.28 1113 1642946495918a8d3854511b53ab1f03 ""
+["pdflatex"] 1735428213.89016 "/media/SANDISK64/CSnIT/III_SEMESTER/industrial_project/report/report.tex" "report.pdf" "report" 1735428214.28569 0
+  "/media/SANDISK64/CSnIT/III_SEMESTER/industrial_project/report/report.tex" 1735428213.55 1139 31b017ae87c4204cc13be96b19389679 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plme.enc" 1136849721 3126 59f33ff3e396436ebc36f4e7b444d5c4 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plmi.enc" 1136849721 2005 f094775651a1386335c158fb632529f1 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plms.enc" 1136849721 2468 3f9e2f3088bcf5b581dfc367d71e7d95 ""
@@ -49,7 +49,13 @@
   "/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty" 1684972800 5048 84b05796b49b69e2d4257d537721c960 ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/ot4enc.def" 1684972800 4782 864a985e649116707c74e7b5d0c3dcc6 ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo" 1684972800 8464 1f4991f9def04be6719b2af330c83aac ""
+  "/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/fontawesome5-generic-helper.sty" 1651520503 1796 6d3390e7a3f2a0f63ce89532aa30ac20 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/fontawesome5-mapping.def" 1651520503 107808 07e47606922c76b1824e149c54155c4c ""
+  "/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/fontawesome5.sty" 1651520503 8112 16dbb19fca3f2df864fea49874356f35 ""
   "/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1666901542 30426 f2fb69fcda4dc35ed0b7dee211bce679 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty" 1671310534 6107 386d6336ccdc5637fb2ac440a8c4ecaa ""
+  "/usr/share/texlive/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty" 1671310555 4674 59e4cf717912f4a8712612c3924f734c ""
+  "/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty" 1671310555 6812 c155095bd0101370166071972167f9ce ""
   "/usr/share/texlive/texmf-dist/tex/latex/polski/omlplm.fd" 1629921906 1559 a2e024b0ee8ecaa0d3016537435f2a1c ""
   "/usr/share/texlive/texmf-dist/tex/latex/polski/omsplsy.fd" 1629921906 1478 709f1d1020b26a6953dfa2a739c0f292 ""
   "/usr/share/texlive/texmf-dist/tex/latex/polski/omxplex.fd" 1629921906 1289 c085201d50568bfe8b525969526e4fd0 ""
@@ -59,9 +65,9 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1684972800 40326 aba987258e6d6b6da5dec3a727ea174b ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1735425954.50055 4547801 12750a1f41d88f5207b57129561a9960 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1735425645 7871838 c7af0fa0c54afedd4391440581fa346a ""
-  "report.aux" 1735426554.34 395 f80c28fc8c041028c28ac00763727cd8 "pdflatex"
-  "report.tex" 1735426553.28 1113 1642946495918a8d3854511b53ab1f03 ""
-  "report.toc" 1735426554.34 139 a388c0e762fed4148573f43a91d82e90 "pdflatex"
+  "report.aux" 1735428214.23 395 f80c28fc8c041028c28ac00763727cd8 "pdflatex"
+  "report.tex" 1735428213.55 1139 31b017ae87c4204cc13be96b19389679 ""
+  "report.toc" 1735428214.23 139 a388c0e762fed4148573f43a91d82e90 "pdflatex"
   (generated)
   "report.aux"
   "report.log"
