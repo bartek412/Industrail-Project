@@ -13,6 +13,11 @@ videos_analysis/apriltags_p1/
 videos_analysis/apriltags_p2/
 videos_analysis/apriltags_p3/
 *.log
+report/*.aux
+report/*.fdb_latexmk
+report/*.fls
+report/*.synctex.gz
+report/*.toc
 
 # Virtual environments
 .venv
