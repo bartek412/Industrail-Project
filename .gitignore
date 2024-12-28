@@ -9,6 +9,9 @@ temp/
 videos_analysis/apriltags_new/
 videos_analysis/apriltag_1/
 videos_analysis/apriltags/
+videos_analysis/apriltags_p1/
+videos_analysis/apriltags_p2/
+videos_analysis/apriltags_p3/
 
 # Virtual environments
 .venv
