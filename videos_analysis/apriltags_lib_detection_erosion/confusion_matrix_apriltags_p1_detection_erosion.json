@@ -1,0 +1,8 @@
+{
+  "apriltags_p1_detection_erosion": {
+    "tp": 1528,
+    "tn": 286,
+    "fp": 13,
+    "fn": 499
+  }
+}

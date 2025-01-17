@@ -1,0 +1,8 @@
+{
+  "apriltags_new_detection_erosion_nofp_shape_filtering_dark_only": {
+    "tp": 1012,
+    "tn": 298,
+    "fp": 1,
+    "fn": 182
+  }
+}

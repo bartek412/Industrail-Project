@@ -1,0 +1,8 @@
+detected false positives:
+
+apriltags: 163
+apriltag_1: 361
+apriltags_new: 32
+apriltags_p1: 10
+apriltags_p2: 7
+apriltags_p3: 2

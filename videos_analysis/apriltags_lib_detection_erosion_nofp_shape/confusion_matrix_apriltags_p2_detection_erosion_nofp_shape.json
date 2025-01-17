@@ -1,0 +1,8 @@
+{
+  "apriltags_p2_detection_erosion_nofp_shape": {
+    "tp": 447,
+    "tn": 254,
+    "fp": 34,
+    "fn": 119
+  }
+}

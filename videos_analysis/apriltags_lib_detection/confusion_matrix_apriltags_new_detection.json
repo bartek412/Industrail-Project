@@ -1,0 +1,8 @@
+{
+  "apriltags_new_detection": {
+    "tp": 1045,
+    "tn": 297,
+    "fp": 12,
+    "fn": 151
+  }
+}
