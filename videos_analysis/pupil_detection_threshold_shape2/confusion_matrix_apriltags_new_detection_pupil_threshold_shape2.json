@@ -1,0 +1,8 @@
+{
+  "apriltags_new_detection_pupil_threshold_shape2": {
+    "tp": 1016,
+    "tn": 278,
+    "fp": 22,
+    "fn": 178
+  }
+}

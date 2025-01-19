@@ -1,0 +1,8 @@
+{
+  "apriltags_p2_detection_pupil": {
+    "tp": 284,
+    "tn": 235,
+    "fp": 77,
+    "fn": 285
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "apriltag_1_detection_pupil": {
+    "tp": 1830,
+    "tn": 325,
+    "fp": 2029,
+    "fn": 15
+  }
+}

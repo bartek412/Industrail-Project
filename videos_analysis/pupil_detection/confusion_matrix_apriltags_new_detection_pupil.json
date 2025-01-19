@@ -1,0 +1,8 @@
+{
+  "apriltags_new_detection_pupil": {
+    "tp": 1032,
+    "tn": 269,
+    "fp": 135,
+    "fn": 166
+  }
+}

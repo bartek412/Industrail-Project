@@ -1,0 +1,8 @@
+{
+  "apriltags_p3_detection_pupil_shape2": {
+    "tp": 802,
+    "tn": 184,
+    "fp": 24,
+    "fn": 222
+  }
+}

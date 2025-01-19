@@ -1,0 +1,8 @@
+{
+  "apriltag_1_detection_pupil_threshold": {
+    "tp": 1709,
+    "tn": 593,
+    "fp": 340,
+    "fn": 16
+  }
+}
