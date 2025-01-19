@@ -91,6 +91,7 @@ def put_detection_results_on_frame(original_frame, detection_results):
 def threshold_filter(result):
     # loop over the AprilTag detection detection_results and reject unsure detection objects (below treshold)
     if result.decision_margin < DECISION_MARGIN_THRESHOLD:
+        print(f"##### THRESHOLD FILTER ISSUE {result.tag_id}: result.decision_margin < DECISION_MARGIN_THRESHOLD = {result.decision_margin} < {DECISION_MARGIN_THRESHOLD}")
         result.tag_id = str(result.tag_id)
     return result
 
@@ -319,6 +320,10 @@ def process_video(video_src_path, save_video=False, apply_threshold_filter=True,
 
     video.release()
     video_saver.release()
+    print(10*'\n')
+    if not save2json_rejected_ids:
+        for frame, detections_within_frame in statistics.items():
+            statistics[frame] = [detection for detection in detections_within_frame if isinstance(detection, int)]
 
     with open(video_out_path.replace('.mp4', '.json'), "w") as json_file:
                     json.dump(statistics, json_file, indent=2)
@@ -327,24 +332,26 @@ def process_video(video_src_path, save_video=False, apply_threshold_filter=True,
 
 if __name__ == "__main__":
 #    which_videos_to_process = 'All'
-    which_videos_to_process = 'apriltags_p0' # 'apriltag_1', 'apriltags_new' 'apriltags_p1' 'apriltags_p2' 'apriltags_p3'
+    which_videos_to_process = 'all' # 'apriltag_1', 'apriltags_new' 'apriltags_p1' 'apriltags_p2' 'apriltags_p3'
+    save_path_suffix = "_detection_pupil_threshold_shape2"
     save_video = True
+    save2json_rejected_ids = False
     display_detection_results = False
     apply_threshold_filter = True
     apply_bayes_filter = False
     apply_shape_filter = True
 
-    if which_videos_to_process == 'All':
+    if which_videos_to_process == 'all':
         videos_dir = [v for v in os.listdir(os.getcwd()+'/videos') if v[-4:] == ".mp4"]
         print("videos found in directory:", os.getcwd()+'/videos', videos_dir)
         for name in videos_dir:
             video_src_path = f'videos/{name}'
-            video_out_path = f'videos_detection_pupil/{name[:-4]}_detection_pupil.mp4'
+            video_out_path = f'videos{save_path_suffix}/{name[:-4]}{save_path_suffix}.mp4'
             process_video(video_src_path, apply_threshold_filter=apply_threshold_filter, apply_bayes_filter=apply_bayes_filter, apply_shape_filter=apply_shape_filter, save_video=save_video, display_detection_results=display_detection_results)
 
     else:
         name = which_videos_to_process
         video_src_path = f'videos/{name}.mp4'
-        video_out_path = f'videos_detection_pupil/{name}_pupil_detection_.mp4'
+        video_out_path = f'videos{save_path_suffix}/{name}{save_path_suffix}.mp4'
         process_video(video_src_path, apply_threshold_filter=apply_threshold_filter, apply_bayes_filter=apply_bayes_filter, apply_shape_filter=apply_shape_filter, save_video=save_video, display_detection_results=display_detection_results)
 
