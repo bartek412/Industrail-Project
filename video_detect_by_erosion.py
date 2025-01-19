@@ -108,7 +108,8 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
     fp_detected = 0
 
     # Process each frame
-
+    options = apriltag.DetectorOptions(families="tag16h5")
+    detector = apriltag.Detector(options)
     frames_counter = 0
     stats = {"frames_numbers": 0, "frames_detected": 0}
     statistics = {}
@@ -136,8 +137,7 @@ def process_video(video_src_path, video_out_path, use_erosion=True, save=True, f
                 [square(1), square(3), square(5), square(7), disk(3), disk(5), disk(7)],
             )
             image = erosion(image, kernel)
-        options = apriltag.DetectorOptions(families="tag16h5")
-        detector = apriltag.Detector(options)
+
         results = detector.detect(np.asarray(image, np.uint8))
         # image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
