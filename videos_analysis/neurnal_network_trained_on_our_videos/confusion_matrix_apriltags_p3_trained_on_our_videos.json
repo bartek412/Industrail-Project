@@ -1,0 +1,8 @@
+{
+  "apriltags_p3_trained_on_our_videos": {
+    "tp": 1110,
+    "tn": 4,
+    "fp": 219,
+    "fn": 4
+  }
+}

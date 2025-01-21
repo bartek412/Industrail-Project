@@ -1,0 +1,8 @@
+{
+  "apriltags_p3_trained_on_web_images": {
+    "tp": 1546,
+    "tn": 97,
+    "fp": 107,
+    "fn": 40
+  }
+}

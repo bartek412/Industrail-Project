@@ -1,0 +1,8 @@
+{
+  "apriltags_p3_finetuned": {
+    "tp": 1035,
+    "tn": 2,
+    "fp": 204,
+    "fn": 0
+  }
+}

@@ -69,4 +69,9 @@ python3 tp_tn_fp_fn.py pupil_detection_threshold_shape2/apriltags_p3_detection_p
 
 
 
+
+python3 tp_tn_fp_fn.py neurnal_network_finetuned/apriltags_p3_finetuned.json ground_truth/apriltags_p3_ground_truth.json
+python3 tp_tn_fp_fn.py neurnal_network_trained_on_our_videos/apriltags_p3_trained_on_our_videos.json ground_truth/apriltags_p3_ground_truth.json
+python3 tp_tn_fp_fn.py neurnal_network_trained_on_web_images/apriltags_p3_trained_on_web_images.json ground_truth/apriltags_p3_ground_truth.json
+
 python3 put_results_into_single_json_file.py all_results.json
