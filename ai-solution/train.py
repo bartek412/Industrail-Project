@@ -1,6 +1,5 @@
 from ultralytics import YOLO
 import argparse
-import cv2
 
 
 def parse_args():
