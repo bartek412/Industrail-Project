@@ -9,6 +9,7 @@ import cv2
 import math
 from skimage.draw import polygon
 import json
+import sys
 
 
 def count_detected_april_tags(image):
@@ -200,4 +201,7 @@ if __name__ == "__main__":
     name = 'apriltag_1'
     video_src_path = f'videos/{name}.mp4'
     video_out_path = f'videos_nofp_detection_erosion/{name}_nofp_detection_erosion.mp4'
+    if len(sys.argv) == 3:
+        video_src_path = sys.argv[1]
+        video_out_path = sys.argv[2]
     process_video(video_src_path, video_out_path, use_erosion=True, save=True, for_dark_only=True)

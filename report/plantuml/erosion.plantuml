@@ -1,0 +1,41 @@
+@startuml
+
+scale 1000*1000
+
+start
+
+while (next frame present) is (yes)
+    : select frame;
+    : check if the frame is dark;
+    if (dark scene detected) then (yes)
+
+        repeat : select erosion kernel;
+
+            : apply erosion on frame;
+            : detect apriltags;
+            if (the highest number of detected tags) then (yes)
+                : save the kernel and detected tags;
+            else (no)
+            endif
+
+        repeat while (next kernel present) is (yes) not (no)
+
+        repeat : select detected tag;
+            : validate detected tag shape;
+            : validate detected tag using filtering;
+            if (false positive detected) then (yes)
+            else (no)
+                : save detected tag;
+            endif
+        repeat while (next detected tag present) is (yes) not (no)
+
+    else (no)
+        : detect apriltags;
+    endif
+endwhile(no)
+
+: save results;
+
+end
+
+@enduml
