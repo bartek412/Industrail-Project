@@ -8,6 +8,14 @@
         }
     },
     {
+        "apriltags_p0_detection": {
+            "tp": 2494,
+            "tn": 180,
+            "fp": 277,
+            "fn": 3521
+        }
+    },
+    {
         "apriltags_detection": {
             "tp": 2494,
             "tn": 180,
@@ -53,6 +61,14 @@
             "tn": 202,
             "fp": 6,
             "fn": 130
+        }
+    },
+    {
+        "apriltags_p0_detection_erosion_nofp_shape_filtering": {
+            "tp": 3008,
+            "tn": 183,
+            "fp": 112,
+            "fn": 3008
         }
     },
     {
@@ -144,6 +160,14 @@
         }
     },
     {
+        "apriltags_p0_detection_erosion_nofp_shape": {
+            "tp": 3401,
+            "tn": 180,
+            "fp": 326,
+            "fn": 2619
+        }
+    },
+    {
         "apriltags_p2_detection_erosion": {
             "tp": 447,
             "tn": 251,
@@ -157,6 +181,14 @@
             "tn": 286,
             "fp": 13,
             "fn": 499
+        }
+    },
+    {
+        "apriltags_p0_detection_erosion": {
+            "tp": 3406,
+            "tn": 170,
+            "fp": 484,
+            "fn": 2614
         }
     },
     {
@@ -205,6 +237,14 @@
             "tn": 652,
             "fp": 7,
             "fn": 26
+        }
+    },
+    {
+        "apriltags_p0_detection_erosion_nofp_shape_filtering_dark_only": {
+            "tp": 2663,
+            "tn": 183,
+            "fp": 75,
+            "fn": 3352
         }
     },
     {
