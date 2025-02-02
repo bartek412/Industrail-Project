@@ -57,7 +57,27 @@ sth.py
 sth.py
 ```
 # Results
+### Related scripts
+- *generate_all_tp_tn_fp_fn.sh*
+
 Results are supposed to be stored in *./videos_analysis*. Structure is as follows:
 - there are directories with names containing information about used script and its config (like in main, root directory). These directiores contain .json files which are raw detection results frame by frame.
 - there is a directory containing ground truth of the same format
-- there are some useful scripts to process results
+- there are some useful scripts to process results (you need to use only one which uses other scripts)
+
+In order to process all results just execute following command
+```bash
+generate_all_tp_tn_fp_fn.sh
+```
+It produces all_results.json file which contains processed results in form of 
+```
+    {
+        "apriltags_p1_detection": {
+            "tp": 1504,
+            "tn": 288,
+            "fp": 4,
+            "fn": 523
+        }
+    },
+```
+of all examined results. There is exemplary jupyter notebook file which can be used as a hint on how to load these results for further processing or visualization.
