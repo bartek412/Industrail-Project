@@ -1,3 +1,5 @@
+# Prerequisites
+MacOS or GNU/LinuxOS is recommended.
 # Detection scripts
 
 ## pupil-apriltags / apriltags3
