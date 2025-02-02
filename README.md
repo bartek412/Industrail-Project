@@ -82,4 +82,5 @@ It produces all_results.json file which contains processed results in form of
         }
     },
 ```
-of all examined results. There is exemplary jupyter notebook file which can be used as a hint on how to load these results for further processing or visualization.
+of all examined results. There is exemplary jupyter notebook file which can be used as a hint on how to load these results for further processing or visualization. 
+To visualize results results_visualization.ipynb notebook can be used in jupyter.
