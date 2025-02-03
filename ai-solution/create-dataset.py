@@ -1,19 +1,37 @@
 import os
 import shutil
 from pathlib import Path
+import yaml  # Add this import
 
 
 def create_directory_structure():
     """Create the required directory structure if it doesn't exist."""
     directories = [
-        "dataset-v2/train/images",
-        "dataset-v2/train/labels",
-        "dataset-v2/test/images",
-        "dataset-v2/test/labels",
+        "dataset-our-videos/train/images",
+        "dataset-our-videos/train/labels",
+        "dataset-our-videos/test/images",
+        "dataset-our-videos/test/labels",
     ]
 
     for directory in directories:
         Path(directory).mkdir(parents=True, exist_ok=True)
+
+
+def create_yaml_file():
+    """Create data.yaml file with dataset configuration."""
+    dataset_path = os.path.abspath("dataset-our-videos")
+
+    yaml_content = {
+        "path": dataset_path,
+        "train": "train/images",
+        "val": "test/images",
+        "nc": 1,
+        "names": ["aruco"],
+    }
+
+    yaml_path = os.path.join("dataset-our-videos", "data.yaml")
+    with open(yaml_path, "w") as f:
+        yaml.safe_dump(yaml_content, f, default_flow_style=False)
 
 
 def copy_files(src_dir, train_dir, test_dir):
@@ -62,19 +80,22 @@ def main():
     # Create directory structure
     create_directory_structure()
 
+    # Create YAML file
+    create_yaml_file()
+
     # Set up paths
     labels_dir = "labels"
-    train_dir = "dataset-v2/train"
-    test_dir = "dataset-v2/test"
+    train_dir = "dataset-our-videos/train"
+    test_dir = "dataset-our-videos/test"
 
     # Copy files
     copy_files(labels_dir, train_dir, test_dir)
 
     # Print summary
-    train_images = len(os.listdir("dataset-v2/train/images"))
-    train_labels = len(os.listdir("dataset-v2/train/labels"))
-    test_images = len(os.listdir("dataset-v2/test/images"))
-    test_labels = len(os.listdir("dataset-v2/test/labels"))
+    train_images = len(os.listdir("dataset-our-videos/train/images"))
+    train_labels = len(os.listdir("dataset-our-videos/train/labels"))
+    test_images = len(os.listdir("dataset-our-videos/test/images"))
+    test_labels = len(os.listdir("dataset-our-videos/test/labels"))
 
     print("\nDataset creation complete!")
     print(f"Train set: {train_images} images, {train_labels} labels")
