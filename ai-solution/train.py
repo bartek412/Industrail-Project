@@ -8,7 +8,7 @@ def parse_args():
         "--data", type=str, required=True, help="Path to data.yaml file"
     )
     parser.add_argument(
-        "--device", type=str, default="0", help="Device to use (e.g. cpu, 0, 1, etc.)"
+        "--device", type=str, default="0", help="Device to use (e.g. cpu, 0, mps, etc.)"
     )
     parser.add_argument(
         "--pretrained", type=str, default=None, help="Path to pretrained weights file"
@@ -35,7 +35,6 @@ def main():
         "batch": 0.8,
         "perspective": 0.01,
         "auto_augment": "augmix",
-        "single_cls": True,
         "cos_lr": True,
         "plots": True,
     }
