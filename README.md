@@ -52,15 +52,11 @@ sth.py
 
 ## ai approach
 
-### Related scripts
-- sth.py
-- 
-```
-sth.py
-```
+[AI approach Documentation](ai-solution/README.md)
 # Results
 ### Related scripts
 - *generate_all_tp_tn_fp_fn.sh*
+- *make_graphs.ipynb*
 
 Results are supposed to be stored in *./videos_analysis*. Structure is as follows:
 - there are directories with names containing information about used script and its config (like in main, root directory). These directiores contain .json files which are raw detection results frame by frame.
