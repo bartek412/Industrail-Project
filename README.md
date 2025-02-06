@@ -71,7 +71,7 @@ Python3 libraries:
 ### Script execution
 
 ```
-python3 video_detect_by_erosion.py <src_video_file> <output_video_file>
+uv run video_detect_by_erosion.py <src_video_file> <output_video_file>
 ```
 
 The output of the execution of the script is a video with marked detected apriltags as well as JSON file with apriltag indices detected for each frame. Generated JSON file is used in [Results](#Results).
